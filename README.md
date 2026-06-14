@@ -43,3 +43,11 @@ Memorizar las definiciones de cada termino y su estructura, ya que se me costo u
 - Reutilizacion de funciones.
 - Uso de funciones arrow
 - Uso de modales popup.
+
+## Page link:
+
+- No me deja subirlo a github Pages, me dice:
+
+- GitHub Pages is designed to host your personal, organization, or project pages from a GitHub repository.
+GitHub Pages: Upgrade or make this repository public to enable Pages
+Learn more about GitHub Pages
