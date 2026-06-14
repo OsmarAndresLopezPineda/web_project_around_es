@@ -2,9 +2,31 @@
 
 ## Características del proyecto
 
+# Proyecto 8-Parte 1:
+
 - Es esta primera parte del proyecto 8 primero se crea una directorio de "scripts" que contendra todos los scrips de JavaScript del proyecto, despues se crea un archivo index.js que contendra todas las funcionalidades de nuestro proyecto js.
 - Tambien se crea un array llamado "initialCards" donde creamos 6 objetos para cada elemento "card" de "cart\_\_list" de nuestro "index.html".
-- Se llama al metodo forEach para iterar en cada uno de los campos de "name" del los objetos del array "initialCards".
+  - Se elimina el metodo forEach para iterar en cada uno de los campos de "name" del los objetos del array "initialCards".
+
+# Proyecto 8-Parte 2:
+
+- Se seleccionan los selectores de "profile\_\_edit-button" en el document, y los selectores edit-popup, y close popup.
+- Se crean dos funciones para abrir y cerrat Modal (openModal, closeModal).
+- Se usa el metodo "addEventListener" para abrir los selectores edit-popup, y close popup.
+- Se crea una funcion que rellene los campos de nameInput y jobInput con los campos actuales de profileTitle y profileDescription.
+- Se crea una funcion que se encarga de actualizar los datos de profileTitle y profileDescription con los datos de nameInput y jobInput, cuando esta se envie con el botton de "submit"
+- Se le asignan valores predeterminados al Titulo y Descripcion de la "getCardElement".
+
+# Proyecto 8-Parte 3:
+
+- Se selecciona el boton "profile\_\_add-button" en el documento, asi como "new-card-popup".
+- Se crean diversos selectores para los elementos internos de #new-card-popup" y "cardForm".
+- Se reutilizan los modales openModal y closeModal para abrir y cerrar los repectivos atravez del metodo "addEventListener" "click".
+- Se crea una funcion que se encarga de crear una nueva tarjeta con los datos de nameCard y linkCard, a partir de un clon de los elementos de la "cardTempleate", cuando se da click en "submit" gracias al metodo "addEventListener".
+- Se crea una funcion que renderiza la copia de la "cardTempleate" en al princio del contenedor de las tarjetas dentro del DOM del HTML.
+- Se agrega la funcion de "cardLikeButton" (me gusta) al boton a la funcion que crea los clones con las tarjetas de "cardTempleate".
+- Se agrega la funcion de "cardDeleteButton" (borrar) a la funcion que crea los clones con las tarjetas de "cardTempleate".
+- Se llama al selector #image-popup" para que abra el modal cuando se de click en la imagen de una tarjeta dentro de el clon que se crea de cada "cardTempleate".
 
 ### Planes de mejora
 
@@ -15,3 +37,9 @@ Memorizar las definiciones de cada termino y su estructura, ya que se me costo u
 - Uso de JavaScript.
 - Uso de arrays con objetos con diferentes campos.
 - Uso de metodos para los arrays.
+- Uso de selectores.
+- Uso de funciones con elementos predeterminados.
+- Uso del metodo "addEventListener".
+- Reutilizacion de funciones.
+- Uso de funciones arrow
+- Uso de modales popup.
