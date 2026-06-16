@@ -87,6 +87,7 @@ const cardList = document.querySelector(".cards__list");
 /* ------5. Abrir versiones más grandes de las imágenes como ventanas emergentes ---------------*/
 const imagePopup = document.querySelector("#image-popup");
 const imagePopupElement = imagePopup.querySelector(".popup__image");
+const imagePopupCaption = imagePopup.querySelector(".popup__caption");
 const imagePopupClose = imagePopup.querySelector(".popup__close");
 
 imagePopupClose.addEventListener("click", () => closeModal(imagePopup));
@@ -118,6 +119,7 @@ function getCardElement(
   imageElement.addEventListener("click", () => {
     imagePopupElement.src = imageElement.src;
     imagePopupElement.alt = imageElement.alt;
+    imagePopupCaption.textContent = nameCard;
     openModal(imagePopup);
   });
   return cardElement;
@@ -154,6 +156,8 @@ function handleCardFormSubmit(evt) {
   renderCard(cardNameInput.value, cardLinkInput.value, cardList);
   //Cerramos la ventana emergente
   closeModal(newCardPopup);
+  //Borramos los datos anteriores del formulario
+  cardForm.reset();
 }
 //Controlador que activa la funcion al enviar el formulario
 cardForm.addEventListener("submit", handleCardFormSubmit);
