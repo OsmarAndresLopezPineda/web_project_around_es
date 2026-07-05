@@ -30,7 +30,6 @@ const initialCards = [
 //1. Seleccionamos el boton de "Editar perfil", cerrar y el modal
 const profileEditButton = document.querySelector(".profile__edit-button");
 const editPopup = document.querySelector("#edit-popup");
-const popupClose = editPopup.querySelector(".popup__close");
 //2. Funciones que abren y cierran el modal cuando se llamen
 function openModal(modal) {
   modal.classList.add("popup_is-opened");
@@ -40,7 +39,23 @@ function closeModal(modal) {
 }
 //3. Metodo que llama a las dos funciones anteriores para abrir o cerrar el modal
 profileEditButton.addEventListener("click", () => handleOpenEditModal());
-popupClose.addEventListener("click", () => closeModal(editPopup));
+//----------------Super Funcion para cerrar al hacer click afuera-------------------
+function closePopupOptions(popupName) {
+  const popupClose = popupName.querySelector(".popup__close");
+  popupClose.addEventListener("click", () => closeModal(popupName));
+  function handleCloseModal(evt) {
+    const clickOutside = evt.type === "mousedown" && evt.target === popupName;
+    const pressEscape = evt.type === "keydown" && evt.key === "Escape";
+
+    if (clickOutside || pressEscape) {
+      closeModal(popupName);
+    }
+  }
+  popupName.addEventListener("mousedown", handleCloseModal);
+  document.addEventListener("keydown", handleCloseModal);
+}
+//Llamamos a la funcion para cerrar
+closePopupOptions(editPopup);
 
 /*------2. Campos del formulario------*/
 //Selectores de titulo, descripcion, boton, formularios e inputs del formulario en el DOM
@@ -88,14 +103,25 @@ const cardList = document.querySelector(".cards__list");
 const imagePopup = document.querySelector("#image-popup");
 const imagePopupElement = imagePopup.querySelector(".popup__image");
 const imagePopupCaption = imagePopup.querySelector(".popup__caption");
-const imagePopupClose = imagePopup.querySelector(".popup__close");
+//Funcion universal para cerrar
+closePopupOptions(imagePopup);
 
-imagePopupClose.addEventListener("click", () => closeModal(imagePopup));
+//Funcion para cerrar al hacer click afuera
+imagePopup.addEventListener("mousedown", (input) => {
+  if (input.target === imagePopup) {
+    closeModal(imagePopup);
+  }
+});
+
+//Funcion para cerrar al presionar escape
+document.addEventListener("keydown", (input) => {
+  if (input.keyCode === 27) {
+    closeModal(imagePopup);
+  }
+});
+
 //Funcion encargada de crear las tarjetas a partir de un objeto de datos
-function getCardElement(
-  nameCard = "Sin titulo",
-  linkCard = "./images/placeholder.jpg",
-) {
+function getCardElement(nameCard, linkCard) {
   //Clona el contenido de la plantilla, con todos sus subelementos
   const cardElement = cardTemplate.cloneNode(true);
   //Seleccionamos el elementos "Title" e "Image" del clon
@@ -140,10 +166,10 @@ initialCards.forEach((card) => {
 const profileAddButton = document.querySelector(".profile__add-button");
 //Seleccionamos la ventana emergente y el boton de cerrar de la ventanan emergente
 const newCardPopup = document.querySelector("#new-card-popup");
-const cardPopupClose = newCardPopup.querySelector(".popup__close");
 //Metodo que llama a las dos funciones anteriores para abrir o cerrar el modal
 profileAddButton.addEventListener("click", () => openModal(newCardPopup));
-cardPopupClose.addEventListener("click", () => closeModal(newCardPopup));
+//Funcion universal para cerrar
+closePopupOptions(newCardPopup);
 /*------2. Campos del formulario------*/
 //Selectores de los valores de entrada del formulario
 const cardForm = newCardPopup.querySelector("#new-card-form");
