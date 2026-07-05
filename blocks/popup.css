@@ -122,7 +122,7 @@
 .form__input_type_error {
   border: 2px solid red;
 }
-.form__input-error {
+.form__input_error {
   display: none;
   font-size: 12px;
   color: red;
