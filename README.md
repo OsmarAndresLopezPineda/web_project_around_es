@@ -28,6 +28,18 @@
 - Se agrega la funcion de "cardDeleteButton" (borrar) a la funcion que crea los clones con las tarjetas de "cardTempleate".
 - Se llama al selector #image-popup" para que abra el modal cuando se de click en la imagen de una tarjeta dentro de el clon que se crea de cada "cardTempleate".
 
+# Proyecto 9-Parte 1:
+
+- Se agrega el mensaje de validacion tipo <span> el el formulario de editar perfil.
+- Se agrega la condicion de 2 a 40 caracteres para el nombre de perfil
+- Se agrega la condicion de 2 a 200 caracteres para la descripcion del perfil
+- Se inabilita el boton de guardado hasta que las condiciones del formulario se cumplan.
+- Se crea una funcion universal reutilizable para validar los formularios de editProfileForm y newCardForm.
+- Se agrega la funcion de cerrar los formularios popup al hacer click afuera
+- Se agrega la funcion de cerrar el formulario al presionar ESC
+- Se crea una funcion que combina las funcionas de cerrar el formulario al hacer click afuera y presionar esc.
+- Se llama la nueva funcion parra los bloques de esditar perfil, crear tarjeta y abrir imagen de tarjeta.
+
 ### Planes de mejora
 
 Memorizar las definiciones de cada termino y su estructura, ya que se me costo un poco recordar que era y como se estructura un "array", con los "objeto", y "campos", usando el "metodo" tal.
