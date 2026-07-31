@@ -3,7 +3,7 @@ const editProfileForm = document.querySelector("#edit-profile-form");
 //Seleccionamos el formulario para crear tarjetas
 const newCardForm = document.querySelector("#new-card-form");
 
-//----------------Super funcion que mustra los mensajes de error en ambos formularios----------
+//----------------Super funcion que muestra los mensajes de error en ambos formularios----------
 function popupErrorMessages(popupName) {
   //1. Declarar selectores
   //Seleccionamos los inputs del formulario

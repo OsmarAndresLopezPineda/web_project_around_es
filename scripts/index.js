@@ -26,20 +26,49 @@ const initialCards = [
   },
 ];
 
-/*------1. Abrir y cerrar el cuadro emergente------*/
-//1. Seleccionamos el boton de "Editar perfil", cerrar y el modal
-const profileEditButton = document.querySelector(".profile__edit-button");
-const editPopup = document.querySelector("#edit-popup");
-//2. Funciones que abren y cierran el modal cuando se llamen
+//##############################################################################
+
+/* ***** 1.Selectores para editar perfil ***** */
+//Selector boton para editar perfil
+const editProfileSelector = document.querySelector(".profile__edit-button");
+//Selector ventana emergente EditProfile
+const editProfilePopup = document.querySelector("#edit-popup");
+//Selectores de titulo, descripcion del HTML
+const profileTitle = document.querySelector(".profile__title");
+const profileDescription = document.querySelector(".profile__description");
+//Seleccionamos el formulario en el DOM y sus valores de entrada
+const formElement = editProfilePopup.querySelector("#edit-profile-form");
+const nameInput = formElement.querySelector(".popup__input_type_name");
+const jobInput = formElement.querySelector(".popup__input_type_description");
+
+/* ***** 2. Selectores añadir nuevas tarjetas ***** */
+//Selector boton para añadir tarjeta
+const newCardSelector = document.querySelector(".profile__add-button");
+//Selector ventana emergente NewCard
+const newCardPopup = document.querySelector("#new-card-popup");
+//Seleccionamos el formulario en el DOM y sus valores de entrada
+const cardForm = newCardPopup.querySelector("#new-card-form");
+const cardNameInput = cardForm.querySelector(".popup__input_type_card-name");
+const cardLinkInput = cardForm.querySelector(".popup__input_type_url");
+//Selector del contenedor de las tarjetas
+const cardList = document.querySelector(".cards__list");
+
+/* ***** 3. Selectores para abrir las imagenes en el DOM (HTML) ***** */
+const imagePopup = document.querySelector("#image-popup");
+const imagePopupElement = imagePopup.querySelector(".popup__image");
+const imagePopupCaption = imagePopup.querySelector(".popup__caption");
+
+//##############################################################################
+
+// ###### Funciones generales que abren y cierran el modal cuando se llamen ######
 function openModal(modal) {
   modal.classList.add("popup_is-opened");
 }
 function closeModal(modal) {
   modal.classList.remove("popup_is-opened");
 }
-//3. Metodo que llama a las dos funciones anteriores para abrir o cerrar el modal
-profileEditButton.addEventListener("click", () => handleOpenEditModal());
-//----------------Super Funcion para cerrar al hacer click afuera-------------------
+
+// ###### Super Funcion general para cerrar al hacer click afuera ######
 function closePopupOptions(popupName) {
   const popupClose = popupName.querySelector(".popup__close");
   popupClose.addEventListener("click", () => closeModal(popupName));
@@ -54,76 +83,34 @@ function closePopupOptions(popupName) {
   popupName.addEventListener("mousedown", handleCloseModal);
   document.addEventListener("keydown", handleCloseModal);
 }
-//Llamamos a la funcion para cerrar
-closePopupOptions(editPopup);
 
-/*------2. Campos del formulario------*/
-//Selectores de titulo, descripcion, boton, formularios e inputs del formulario en el DOM
-const profileTitle = document.querySelector(".profile__title");
-const profileDescription = document.querySelector(".profile__description");
-//Valores de entrada del formulario
-const nameInput = editPopup.querySelector(".popup__input_type_name");
-const jobInput = editPopup.querySelector(".popup__input_type_description");
-//2.1 Funcion que rellene los campos de entrada con los datos de la pagina
-function fillProfileForm() {
+//##############################################################################
+
+// ***** 1.Funcion para rellenar y enviar los campos de "profileTitle" y "rofileDescription" *****
+//Funcion que abre el formulario y lo rellena las entradas con los campos de "profileTitle" y "rofileDescription" *****
+function handleOpenEditModal() {
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
+  openModal(editProfilePopup);
 }
-//Funcion que abre el formulario y lo rellena las entradas con los campos de "profileTitle" y "rofileDescription"
-function handleOpenEditModal() {
-  fillProfileForm();
-  openModal(editPopup);
-}
-//Seleccionamos el formulario en el DOM
-const formElement = editPopup.querySelector("#edit-profile-form");
-
-/*------3. Editar tu nombre y Acerca de mí------*/
-//Function que convierte los campos de entrada en el "profileTitle" y "profileDescription"
+//Function que rellena los campos de entrada en el "profileTitle" y "profileDescription" al enviar formulario *****
 function handleProfileFormSubmit(evt) {
-  //Desactivamos enviar el formulario de forma predeterminada
   evt.preventDefault();
   //Hacemos que los campos de titulo y descripcion cambian conforme a los valores ingresados
   profileTitle.textContent = nameInput.value;
   profileDescription.textContent = jobInput.value;
   //Cerramos la ventana emergente
-  closeModal(editPopup);
+  closeModal(editProfilePopup);
 }
-//Controlador que activa la funcion al enviar el formulario
-formElement.addEventListener("submit", handleProfileFormSubmit);
 
-/* ---------Proyecto Etapa 3 -------------*/
-/*-----1. Generar las tarjetas dinámicamente a partir de un elemento de plantilla------------ */
-//Sellecionamos el contrenido de la Template
-const cardTemplate = document
-  .querySelector("#card__template")
-  .content.querySelector(".card");
-//Seleccionamos el contenedor de las tarjetas:
-const cardList = document.querySelector(".cards__list");
-/* ------5. Abrir versiones más grandes de las imágenes como ventanas emergentes ---------------*/
-const imagePopup = document.querySelector("#image-popup");
-const imagePopupElement = imagePopup.querySelector(".popup__image");
-const imagePopupCaption = imagePopup.querySelector(".popup__caption");
-//Funcion universal para cerrar
-closePopupOptions(imagePopup);
-
-//Funcion para cerrar al hacer click afuera
-imagePopup.addEventListener("mousedown", (input) => {
-  if (input.target === imagePopup) {
-    closeModal(imagePopup);
-  }
-});
-
-//Funcion para cerrar al presionar escape
-document.addEventListener("keydown", (input) => {
-  if (input.keyCode === 27) {
-    closeModal(imagePopup);
-  }
-});
-
+/* ***** 2. Campos del formulario de newCardPopup ***** */
 //Funcion encargada de crear las tarjetas a partir de un objeto de datos
 function getCardElement(nameCard, linkCard) {
-  //Clona el contenido de la plantilla, con todos sus subelementos
-  const cardElement = cardTemplate.cloneNode(true);
+  //Selecciona y clona el contenido de la Template, con todos sus subelementos
+  const cardElement = document
+    .querySelector("#card__template")
+    .content.querySelector(".card")
+    .cloneNode(true);
   //Seleccionamos el elementos "Title" e "Image" del clon
   const titleElement = cardElement.querySelector(".card__title");
   const imageElement = cardElement.querySelector(".card__image");
@@ -132,16 +119,16 @@ function getCardElement(nameCard, linkCard) {
   imageElement.alt = nameCard;
   titleElement.textContent = nameCard;
 
-  /* ------3. Agregar botones "Me gusta" a cada tarjeta ---------------*/
+  /* Agregar botones "Me gusta" a cada tarjeta */
   const cardLikeButton = cardElement.querySelector(".card__like-button");
   cardLikeButton.addEventListener("click", (evt) =>
     evt.target.classList.toggle("card__like-button_is-active"),
   );
-  /* ------4. Eliminar tarjetas ---------------*/
+  /* Eliminar tarjetas */
   const cardDeleteButton = cardElement.querySelector(".card__delete-button");
   cardDeleteButton.addEventListener("click", () => cardElement.remove());
   //Devuelve el elemento clonado
-  /* ------5. Imagen emergente ---------------*/
+  /* Imagen emergente */
   imageElement.addEventListener("click", () => {
     imagePopupElement.src = imageElement.src;
     imagePopupElement.alt = imageElement.alt;
@@ -150,31 +137,12 @@ function getCardElement(nameCard, linkCard) {
   });
   return cardElement;
 }
-
+//---------------------------------------------------------------------
 //Creamos la funcion que agregara el clon de la tarjeta en el DOM
 function renderCard(nameCard, linkCard, containerCard) {
   const renderCardElement = getCardElement(nameCard, linkCard);
   containerCard.prepend(renderCardElement);
 }
-
-initialCards.forEach((card) => {
-  renderCard(card.name, card.link, cardList);
-});
-/* ------2. Agregar nuevas tarjetas con la ventana emergente "Agregar una tarjeta” ---------------*/
-/*------1. Abrir y cerrar el cuadro emergente------*/
-//Seleccionamos el boton de "Editar perfil", cerrar y el modal
-const profileAddButton = document.querySelector(".profile__add-button");
-//Seleccionamos la ventana emergente y el boton de cerrar de la ventanan emergente
-const newCardPopup = document.querySelector("#new-card-popup");
-//Metodo que llama a las dos funciones anteriores para abrir o cerrar el modal
-profileAddButton.addEventListener("click", () => openModal(newCardPopup));
-//Funcion universal para cerrar
-closePopupOptions(newCardPopup);
-/*------2. Campos del formulario------*/
-//Selectores de los valores de entrada del formulario
-const cardForm = newCardPopup.querySelector("#new-card-form");
-const cardNameInput = cardForm.querySelector(".popup__input_type_card-name");
-const cardLinkInput = cardForm.querySelector(".popup__input_type_url");
 //Funcion para enviar el formulario y agregar un Card al inicio del contenedor
 function handleCardFormSubmit(evt) {
   evt.preventDefault();
@@ -185,5 +153,25 @@ function handleCardFormSubmit(evt) {
   //Borramos los datos anteriores del formulario
   cardForm.reset();
 }
+
+//##############################################################################
+
+/* ***** 1.Controladores de eventos para enviar, abrir y cerrar la pestaña de Edit profile ***** */
+//Metodos que abren y cierran nuestro Popup editProfileSelector *****
+editProfileSelector.addEventListener("click", () => handleOpenEditModal());
+//Controlador que activa la funcion al enviar el formulario
+formElement.addEventListener("submit", handleProfileFormSubmit);
+closePopupOptions(editProfilePopup);
+
+/* ***** 2. Metodos para abir y cerrar el formulario de newCardPopup ***** */
+newCardSelector.addEventListener("click", () => openModal(newCardPopup));
+closePopupOptions(newCardPopup);
 //Controlador que activa la funcion al enviar el formulario
 cardForm.addEventListener("submit", handleCardFormSubmit);
+
+//Ciclo forEach que renderiza los objetos en tarjetas para el DOM
+initialCards.forEach((card) => {
+  renderCard(card.name, card.link, cardList);
+});
+closePopupOptions(imagePopup);
+//############################################################
