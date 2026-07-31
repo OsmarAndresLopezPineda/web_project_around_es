@@ -52,6 +52,10 @@ const cardNameInput = cardForm.querySelector(".popup__input_type_card-name");
 const cardLinkInput = cardForm.querySelector(".popup__input_type_url");
 //Selector del contenedor de las tarjetas
 const cardList = document.querySelector(".cards__list");
+//Selector de la Templeate de las tarjetas
+const cardTemplate = document
+  .querySelector("#card__template")
+  .content.querySelector(".card");
 
 /* ***** 3. Selectores para abrir las imagenes en el DOM (HTML) ***** */
 const imagePopup = document.querySelector("#image-popup");
@@ -107,10 +111,7 @@ function handleProfileFormSubmit(evt) {
 //Funcion encargada de crear las tarjetas a partir de un objeto de datos
 function getCardElement(nameCard, linkCard) {
   //Selecciona y clona el contenido de la Template, con todos sus subelementos
-  const cardElement = document
-    .querySelector("#card__template")
-    .content.querySelector(".card")
-    .cloneNode(true);
+  const cardElement = cardTemplate.cloneNode(true);
   //Seleccionamos el elementos "Title" e "Image" del clon
   const titleElement = cardElement.querySelector(".card__title");
   const imageElement = cardElement.querySelector(".card__image");
@@ -130,8 +131,8 @@ function getCardElement(nameCard, linkCard) {
   //Devuelve el elemento clonado
   /* Imagen emergente */
   imageElement.addEventListener("click", () => {
-    imagePopupElement.src = imageElement.src;
-    imagePopupElement.alt = imageElement.alt;
+    imagePopupElement.src = linkCard;
+    imagePopupElement.alt = nameCard;
     imagePopupCaption.textContent = nameCard;
     openModal(imagePopup);
   });
@@ -139,9 +140,8 @@ function getCardElement(nameCard, linkCard) {
 }
 //---------------------------------------------------------------------
 //Creamos la funcion que agregara el clon de la tarjeta en el DOM
-function renderCard(nameCard, linkCard, containerCard) {
-  const renderCardElement = getCardElement(nameCard, linkCard);
-  containerCard.prepend(renderCardElement);
+function renderCard(cardName, cardLink, containerCard) {
+  containerCard.prepend(getCardElement(cardName, cardLink));
 }
 //Funcion para enviar el formulario y agregar un Card al inicio del contenedor
 function handleCardFormSubmit(evt) {
