@@ -115,7 +115,7 @@ function getCardElement(nameCard, linkCard) {
   //Seleccionamos el elementos "Title" e "Image" del clon
   const titleElement = cardElement.querySelector(".card__title");
   const imageElement = cardElement.querySelector(".card__image");
-  //Asignamos los parametros de name y link, al src/alt de la "image" y rexcontent de "title"
+  //Asignamos los parametros de name y link, al src/alt de la "image" y texcontent de "title"
   imageElement.src = linkCard;
   imageElement.alt = nameCard;
   titleElement.textContent = nameCard;
