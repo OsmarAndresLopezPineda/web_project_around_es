@@ -108,6 +108,12 @@ class EditProfilePopup extends Popup {
     this._description.textContent = this._descriptionInput.value;
     super.closePopup();
   }
+  setEventListeners() {
+    this._formProfile.addEventListener("submit", (evt) =>
+      this.handleSubmitEditProfile(evt),
+    );
+    super.closeEventListeners();
+  }
 }
 
 class NewCardPopup extends Popup {
@@ -131,6 +137,12 @@ class NewCardPopup extends Popup {
     //Limpiamos los campos del formulario
     this._formCard.reset();
     super.closePopup();
+  }
+  setEventListeners() {
+    this._formCard.addEventListener("submit", (evt) =>
+      this.handleSubmitCard(evt),
+    );
+    super.closeEventListeners();
   }
 }
 
@@ -206,11 +218,8 @@ const editProfilePopup = new EditProfilePopup(
 editProfileButton.addEventListener("click", () => {
   editProfilePopup.handleOpenEditProfile();
 });
-//Declaramos nuestro listener para "Enviar" el Popup
-editProfilePopup._formProfile.addEventListener("submit", (evt) =>
-  editProfilePopup.handleSubmitEditProfile(evt),
-);
-editProfilePopup.closeEventListeners();
+//Declaramos nuestro listener para "Enviar" y "cerrar" el Popup
+editProfilePopup.setEventListeners();
 
 /* ***** 2.Metodos que abren y cierran nuestro Popup newCardSelector ***** */
 //Instanciamos ventana emergente (popup) NewCard
@@ -227,14 +236,6 @@ const newCardPopup = new NewCardPopup(
     cardList.prepend(newCard.generateCard());
   },
 );
-//Declaramos nuestro listener para "Abrir" el Popup
-newCardButton.addEventListener("click", () => {
-  newCardPopup.openPopup();
-});
-//Declaramos nuestro listener para "Enviar" el Popup
-newCardPopup._formCard.addEventListener("submit", (evt) =>
-  newCardPopup.handleSubmitCard(evt),
-);
 
 //Generamos el array de las tarjetas iniciales
 initialCards.forEach((item) => {
@@ -242,5 +243,106 @@ initialCards.forEach((item) => {
   cardList.prepend(card.generateCard());
 });
 
-newCardPopup.closeEventListeners();
+//Declaramos nuestro listener para "Abrir" el Popup
+newCardButton.addEventListener("click", () => {
+  newCardPopup.openPopup();
+});
+
+//Declaramos nuestro listener para "Enviar" y "Cerrar" el Popup
+newCardPopup.setEventListeners();
+
 imageWithPopup.closeEventListeners();
+
+//##############################################################################
+
+class FormValidator {
+  constructor(popupSelector) {
+    this._popupSelector = popupSelector;
+
+    // Seleccionamos los inputs del formulario
+    this._popupInputs = this._popupSelector.querySelectorAll(".popup__input");
+
+    // Seleccionamos el botón de guardar
+    this._popupSubmitButton =
+      this._popupSelector.querySelector(".popup__button");
+  }
+
+  // Método para mostrar los mensajes de error
+  showInputError(inputElement, errorMessage) {
+    const errorElement = this._popupSelector.querySelector(
+      `.${inputElement.id}-input-error`,
+    );
+
+    inputElement.classList.add("popup__input_type_error");
+    errorElement.textContent = errorMessage;
+    errorElement.classList.add("popup__input-error_active");
+  }
+
+  // Método para ocultar los mensajes de error
+  hideInputError(inputElement) {
+    const errorElement = this._popupSelector.querySelector(
+      `.${inputElement.id}-input-error`,
+    );
+
+    inputElement.classList.remove("popup__input_type_error");
+    errorElement.textContent = "";
+    errorElement.classList.remove("popup__input-error_active");
+  }
+
+  // Método para habilitar o deshabilitar el botón de guardar
+  toggleButtonState() {
+    const allValid = Array.from(this._popupInputs).every(
+      (input) => input.validity.valid,
+    );
+
+    this._popupSubmitButton.disabled = !allValid;
+  }
+
+  // Validamos los inputs en tiempo real
+  validatePopupInputs() {
+    this._popupInputs.forEach((input) => {
+      input.addEventListener("input", () => {
+        if (!input.validity.valid) {
+          this.showInputError(input, input.validationMessage);
+        } else {
+          this.hideInputError(input);
+        }
+
+        this.toggleButtonState();
+      });
+    });
+  }
+
+  // Validamos el formulario antes de enviarlo
+  validateSubmitPopup() {
+    this._popupSelector.addEventListener("submit", (evt) => {
+      let formValid = true;
+
+      this._popupInputs.forEach((input) => {
+        if (!input.validity.valid) {
+          this.showInputError(input, input.validationMessage);
+          formValid = false;
+        }
+      });
+
+      if (!formValid) {
+        evt.preventDefault();
+      }
+    });
+  }
+  setEventListeners() {
+    this.toggleButtonState();
+    this.validatePopupInputs();
+    this.validateSubmitPopup();
+  }
+}
+
+//Instanciamos el formulario de EditProfile
+const editProfileForm = new FormValidator(
+  document.querySelector("#edit-profile-form"),
+);
+editProfileForm.setEventListeners();
+
+//Instanciamos el formulario de NewCard
+const newCardForm = new FormValidator(document.querySelector("#new-card-form"));
+newCardForm.setEventListeners();
