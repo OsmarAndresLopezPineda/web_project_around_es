@@ -40,6 +40,17 @@
 - Se crea una funcion que combina las funcionas de cerrar el formulario al hacer click afuera y presionar esc.
 - Se llama la nueva funcion parra los bloques de esditar perfil, crear tarjeta y abrir imagen de tarjeta.
 
+# Proyecto 10-Parte 1:
+
+- Este proyecto se centra en la refactorizacion, y la utilizacion de clases.
+- Se convierten todas las funciones en metodos de clase y se asignan a diferentes clases relacionadas con una funcion en especifico.
+  - Se crea la clase [Popup]: La cual toma un selector Popup y abre o cierra dicho selector.
+  - Se crea la clase [EditProfilePopup][Popup]: Hija de la clase Popup, y la cual permite abrir y llenar especificamente el formulario "EditProfile" cambiando sus inputs con datos actuales del HTML(DOM), y enviar el formulario.
+  - Se crea la clase [CardPopup][Popup]: Hija de la clase Popup, La cual permite abrir y enviar los datos del formulario "CardPopup".
+  - Se crea la clase [Card]:Crea las tarjetas, utiliza los datos de las inputs de "CardPopup".
+  - Se crea la clase [FormValidator]: Que valida las entradas de los formularios, y crea y muestra mensajes de error deacuerdo al input y sus condiciones. Tambien bloquea el button de submit si el mensaje contiene errores en el formulario.
+  - Despues se instan todas las clases para que funcionen correctamente.
+
 ### Planes de mejora
 
 Memorizar las definiciones de cada termino y su estructura, ya que se me costo un poco recordar que era y como se estructura un "array", con los "objeto", y "campos", usando el "metodo" tal.
