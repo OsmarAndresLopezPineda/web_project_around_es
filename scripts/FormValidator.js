@@ -1,69 +1,80 @@
 export class FormValidator {
-  constructor(popupSelector) {
-    this._popupSelector = popupSelector;
+  constructor(config, formElement) {
+    this._config = config;
+    this._formElement = formElement;
 
     // Seleccionamos los inputs del formulario
-    this._popupInputs = this._popupSelector.querySelectorAll(".popup__input");
-
+    this._popupInputs = this._formElement.querySelectorAll(
+      this._config.inputSelector,
+    );
     // Seleccionamos el botón de guardar
-    this._popupSubmitButton =
-      this._popupSelector.querySelector(".popup__button");
+    this._popupSubmitButton = this._formElement.querySelector(
+      this._config.submitButtonSelector,
+    );
   }
 
   // Método para mostrar los mensajes de error
-  showInputError(inputElement, errorMessage) {
-    const errorElement = this._popupSelector.querySelector(
+  _showInputError(inputElement, errorMessage) {
+    const errorElement = this._formElement.querySelector(
       `.${inputElement.id}-input-error`,
     );
 
-    inputElement.classList.add("popup__input_type_error");
+    inputElement.classList.add(this._config.inputErrorClass);
     errorElement.textContent = errorMessage;
-    errorElement.classList.add("popup__input-error_active");
+    errorElement.classList.add(this._config.errorClass);
   }
 
   // Método para ocultar los mensajes de error
-  hideInputError(inputElement) {
-    const errorElement = this._popupSelector.querySelector(
+  _hideInputError(inputElement) {
+    const errorElement = this._formElement.querySelector(
       `.${inputElement.id}-input-error`,
     );
 
-    inputElement.classList.remove("popup__input_type_error");
+    inputElement.classList.remove(this._config.inputErrorClass);
     errorElement.textContent = "";
-    errorElement.classList.remove("popup__input-error_active");
+    errorElement.classList.remove(this._config.errorClass);
   }
 
   // Método para habilitar o deshabilitar el botón de guardar
-  toggleButtonState() {
+  _toggleButtonState() {
     const allValid = Array.from(this._popupInputs).every(
       (input) => input.validity.valid,
     );
 
-    this._popupSubmitButton.disabled = !allValid;
+    if (allValid) {
+      this._popupSubmitButton.classList.remove(
+        this._config.inactiveButtonClass,
+      );
+      this._popupSubmitButton.disabled = false;
+    } else {
+      this._popupSubmitButton.classList.add(this._config.inactiveButtonClass);
+      this._popupSubmitButton.disabled = true;
+    }
   }
 
   // Validamos los inputs en tiempo real
-  validatePopupInputs() {
+  _checkValidityInput() {
     this._popupInputs.forEach((input) => {
       input.addEventListener("input", () => {
         if (!input.validity.valid) {
-          this.showInputError(input, input.validationMessage);
+          this._showInputError(input, input.validationMessage);
         } else {
-          this.hideInputError(input);
+          this._hideInputError(input);
         }
 
-        this.toggleButtonState();
+        this._toggleButtonState();
       });
     });
   }
 
   // Validamos el formulario antes de enviarlo
-  validateSubmitPopup() {
-    this._popupSelector.addEventListener("submit", (evt) => {
+  _checkValidityButton() {
+    this._formElement.addEventListener("submit", (evt) => {
       let formValid = true;
 
       this._popupInputs.forEach((input) => {
         if (!input.validity.valid) {
-          this.showInputError(input, input.validationMessage);
+          this._showInputError(input, input.validationMessage);
           formValid = false;
         }
       });
@@ -74,8 +85,8 @@ export class FormValidator {
     });
   }
   setEventListeners() {
-    this.toggleButtonState();
-    this.validatePopupInputs();
-    this.validateSubmitPopup();
+    this._toggleButtonState();
+    this._checkValidityInput();
+    this._checkValidityButton();
   }
 }

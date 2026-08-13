@@ -16,7 +16,7 @@ export class Card {
     this._imageElement.alt = this._data.name;
   }
   _setEventListeners() {
-    //Listener para el boton de me gustra
+    //Listener para el boton de me gusta
     this._cardElement
       .querySelector(".card__like-button")
       .addEventListener("click", (evt) =>

@@ -5,6 +5,14 @@ import { Card } from "./Card.js";
 //Importamos nuestro validador de formularios
 import { FormValidator } from "./FormValidator.js";
 
+const validationConfig = {
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inactiveButtonClass: "popup__button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__input-error_active",
+};
+
 // Array "initialCards" con 6 objetos
 const initialCards = [
   {
@@ -71,7 +79,7 @@ editProfilePopup.setEventListeners();
 //##############################################################################
 
 /* ***** 2.Metodos que abren y cierran nuestro Popup newCardSelector ***** */
-//Instanciamos ventana emergente (popup) NewCard
+//Instanciamos ventana emergente (popup) ImagePopup
 const imageWithPopup = new ImageWithPopup(
   document.querySelector("#image-popup"),
 );
@@ -107,10 +115,14 @@ imageWithPopup.closeEventListeners();
 /* ***** 3.Metodos que detectan nuestros errores en nuestros Popup Forms ***** */
 //Instanciamos el validador de formulario de EditProfile
 const editProfileForm = new FormValidator(
+  validationConfig,
   document.querySelector("#edit-profile-form"),
 );
 editProfileForm.setEventListeners();
 
 //Instanciamos el Validador de formulario de NewCard
-const newCardForm = new FormValidator(document.querySelector("#new-card-form"));
+const newCardForm = new FormValidator(
+  validationConfig,
+  document.querySelector("#new-card-form"),
+);
 newCardForm.setEventListeners();
