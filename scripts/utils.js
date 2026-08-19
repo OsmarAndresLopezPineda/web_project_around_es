@@ -1,12 +1,22 @@
 export class Popup {
   constructor(popupSelector) {
     this._popupSelector = popupSelector;
+    //Funcion que cierra el popup si se presiona ESC
+    this._handleEscClose = (evt) => {
+      if (evt.key === "Escape") {
+        this.closePopup();
+      }
+    };
   }
   openPopup() {
     this._popupSelector.classList.add("popup_is-opened");
+    //Agregamos detector de eventos para ESC
+    document.addEventListener("keydown", this._handleEscClose);
   }
   closePopup() {
     this._popupSelector.classList.remove("popup_is-opened");
+    //Quitamos detector de eventos para ESC
+    document.removeEventListener("keydown", this._handleEscClose);
   }
   // Agrega los eventos necesarios para cerrar el popup.
   closeEventListeners() {
@@ -20,23 +30,14 @@ export class Popup {
         this.closePopup();
       }
     });
-    //Funcion que cierra el popup si se presiona ESC
-    document.addEventListener("keydown", (evt) => {
-      if (
-        evt.key === "Escape" &&
-        this._popupSelector.classList.contains("popup_is-opened")
-      ) {
-        this.closePopup();
-      }
-    });
   }
 }
 
 export class EditProfilePopup extends Popup {
-  constructor(name, description, popupSelector) {
+  constructor(popupSelector, dataProfile) {
     super(popupSelector);
-    this._name = name;
-    this._description = description;
+    this._dataProfile = dataProfile;
+
     //Seleccionamos el formulario y los inputs EditProfile
     this._formProfile = this._popupSelector.querySelector("#edit-profile-form");
     this._nameInput = this._formProfile.querySelector(
@@ -48,15 +49,15 @@ export class EditProfilePopup extends Popup {
   }
   //Metodo que rellena las entradas con los campos y abre el formulario
   handleOpenEditProfile() {
-    this._nameInput.value = this._name.textContent;
-    this._descriptionInput.value = this._description.textContent;
+    this._nameInput.value = this._dataProfile.name.textContent;
+    this._descriptionInput.value = this._dataProfile.description.textContent;
     super.openPopup();
   }
   //Metodo que cambia los datos de title y description del html al enviar el formulario
   handleSubmitEditProfile(evt) {
     evt.preventDefault();
-    this._name.textContent = this._nameInput.value;
-    this._description.textContent = this._descriptionInput.value;
+    this._dataProfile.name.textContent = this._nameInput.value;
+    this._dataProfile.description.textContent = this._descriptionInput.value;
     super.closePopup();
   }
   setEventListeners() {
@@ -68,9 +69,10 @@ export class EditProfilePopup extends Popup {
 }
 
 export class NewCardPopup extends Popup {
-  constructor(popupSelector, dataCard) {
+  constructor(popupSelector, dataCard, formValidator) {
     super(popupSelector);
     this._dataCard = dataCard;
+    this._formValidator = formValidator;
     // ***** Seleccionamos el formulario y los inputs NewCard *****
     this._formCard = this._popupSelector.querySelector("#new-card-form");
     this._titleInput = this._formCard.querySelector(
@@ -87,6 +89,7 @@ export class NewCardPopup extends Popup {
     });
     //Limpiamos los campos del formulario
     this._formCard.reset();
+    this._formValidator.resetValidation();
     super.closePopup();
   }
   setEventListeners() {

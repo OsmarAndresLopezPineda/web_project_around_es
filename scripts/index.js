@@ -65,9 +65,8 @@ const cardTemplate = document
 /* ***** 1.Metodos que abren, cierran y envian nuestro Popup editProfile ***** */
 //Instanciamos ventana emergente (popup) EditProfile
 const editProfilePopup = new EditProfilePopup(
-  profileTitle,
-  profileDescription,
   document.querySelector("#edit-popup"),
+  { name: profileTitle, description: profileDescription },
 );
 //Declaramos nuestro listener para "Abrir" el Popup
 editProfileButton.addEventListener("click", () => {
@@ -78,26 +77,52 @@ editProfilePopup.setEventListeners();
 
 //##############################################################################
 
-/* ***** 2.Metodos que abren y cierran nuestro Popup newCardSelector ***** */
+/* ***** 2.Metodos que detectan nuestros errores en nuestros Popup Forms ***** */
+//Instanciamos el validador de formulario de EditProfile
+const checkProfileForm = new FormValidator(
+  validationConfig,
+  document.querySelector("#edit-profile-form"),
+);
+checkProfileForm.setEventListeners();
+
+//Instanciamos el Validador de formulario de NewCard
+const checkCardForm = new FormValidator(
+  validationConfig,
+  document.querySelector("#new-card-form"),
+);
+checkCardForm.setEventListeners();
+
+//##############################################################################
+
+/* ***** 3.Metodos que abren y cierran nuestro Popup newCardSelector ***** */
 //Instanciamos ventana emergente (popup) ImagePopup
 const imageWithPopup = new ImageWithPopup(
   document.querySelector("#image-popup"),
 );
+//Prepare Card (Instancioamos nuestras tarjetas y vinculamos el handleCardImagePopup con estas)
+const prepareCard = (cardData) => {
+  const card = new Card(cardData, cardTemplate);
+  const cardElement = card.generateCard();
+  //Listener para el abrir el popup de la imagen
+  cardElement.querySelector(".card__image").addEventListener("click", () => {
+    imageWithPopup.handleCardImagePopup(cardData.name, cardData.link);
+  });
+
+  return cardElement;
+};
 //Instanciamos ventana emergente (popup) NewCard
 const newCardPopup = new NewCardPopup(
   document.querySelector("#new-card-popup"),
   (cardData) => {
-    //Instanciamos creacion de nueva Card
-    const newCard = new Card(cardData, imageWithPopup, cardTemplate);
     //Agregamos la tarjeta al DOM
-    cardList.prepend(newCard.generateCard());
+    cardList.prepend(prepareCard(cardData));
   },
+  checkCardForm,
 );
 
 //Generamos el array de las tarjetas iniciales
 initialCards.forEach((item) => {
-  const card = new Card(item, imageWithPopup, cardTemplate);
-  cardList.prepend(card.generateCard());
+  cardList.prepend(prepareCard(item));
 });
 
 //Declaramos nuestro listener para "Abrir" el Popup
@@ -109,20 +134,3 @@ newCardButton.addEventListener("click", () => {
 newCardPopup.setEventListeners();
 
 imageWithPopup.closeEventListeners();
-
-//##############################################################################
-
-/* ***** 3.Metodos que detectan nuestros errores en nuestros Popup Forms ***** */
-//Instanciamos el validador de formulario de EditProfile
-const editProfileForm = new FormValidator(
-  validationConfig,
-  document.querySelector("#edit-profile-form"),
-);
-editProfileForm.setEventListeners();
-
-//Instanciamos el Validador de formulario de NewCard
-const newCardForm = new FormValidator(
-  validationConfig,
-  document.querySelector("#new-card-form"),
-);
-newCardForm.setEventListeners();

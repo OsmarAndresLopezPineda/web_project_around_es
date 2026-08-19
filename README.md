@@ -1,76 +1,81 @@
-# Proyecto 8-Parte 1: Métodos de JavaScript y trabajar con el DOM: Tripleten web_project_around_es
+# Sprint 10: Introducción a la Programación Orientada a Objetos
+
+## TripleTen — `web_project_around_es`
+
+Este proyecto corresponde al Sprint 10 del bootcamp de Desarrollo Web de TripleTen y tiene como objetivo aplicar los principios de la Programación Orientada a Objetos (POO) en JavaScript.
+
+A partir de una versión funcional del proyecto, se realizó una refactorización del código para organizar mejor sus responsabilidades mediante clases, herencia, encapsulamiento y módulos JavaScript.
 
 ## Características del proyecto
 
-# Proyecto 8-Parte 1:
+- Refactorización del código utilizando Programación Orientada a Objetos.
+- Creación de clases independientes para organizar diferentes responsabilidades, se convierten todas las funciones en metodos de clase y se asignan a diferentes clases relacionadas con una funcion en especifico.
+- Uso de herencia de clases mediante la clase [Popup] y sus clases derivadas.
+- Uso de módulos JavaScript mediante [export] e [import].
+- Encapsulamiento de propiedades y métodos mediante la convención de propiedades privadas con `_`.
+- Gestión de eventos mediante [addEventListener] y [removeEventListener].
+- Validación de formularios y control del estado de los botones de envío.
+- Creación dinámica de tarjetas a partir de objetos con información proporcionada por el usuario.
+- Apertura y cierre de ventanas emergentes (popups).
+- Edición de información del perfil mediante un formulario.
+- Creación de nuevas tarjetas mediante un formulario.
+- Visualización de imágenes en un popup.
 
-- Es esta primera parte del proyecto 8 primero se crea una directorio de "scripts" que contendra todos los scrips de JavaScript del proyecto, despues se crea un archivo index.js que contendra todas las funcionalidades de nuestro proyecto js.
-- Tambien se crea un array llamado "initialCards" donde creamos 6 objetos para cada elemento "card" de "cart\_\_list" de nuestro "index.html".
-  - Se elimina el metodo forEach para iterar en cada uno de los campos de "name" del los objetos del array "initialCards".
+## Mejoras realizadas
 
-# Proyecto 8-Parte 2:
+Durante la refactorización se buscó mejorar principalmente:
 
-- Se seleccionan los selectores de "profile\_\_edit-button" en el document, y los selectores edit-popup, y close popup.
-- Se crean dos funciones para abrir y cerrat Modal (openModal, closeModal).
-- Se usa el metodo "addEventListener" para abrir los selectores edit-popup, y close popup.
-- Se crea una funcion que rellene los campos de nameInput y jobInput con los campos actuales de profileTitle y profileDescription.
-- Se crea una funcion que se encarga de actualizar los datos de profileTitle y profileDescription con los datos de nameInput y jobInput, cuando esta se envie con el botton de "submit"
-- Se le asignan valores predeterminados al Titulo y Descripcion de la "getCardElement".
+- La organización y legibilidad del código.
+- La separación de responsabilidades.
+- La reutilización de componentes.
+- La consistencia en los nombres de clases, métodos y propiedades.
+- La eliminación de lógica repetida.
+- El mantenimiento y escalabilidad del proyecto.
 
-# Proyecto 8-Parte 3:
+## Estructura del proyecto
 
-- Se selecciona el boton "profile\_\_add-button" en el documento, asi como "new-card-popup".
-- Se crean diversos selectores para los elementos internos de #new-card-popup" y "cardForm".
-- Se reutilizan los modales openModal y closeModal para abrir y cerrar los repectivos atravez del metodo "addEventListener" "click".
-- Se crea una funcion que se encarga de crear una nueva tarjeta con los datos de nameCard y linkCard, a partir de un clon de los elementos de la "cardTempleate", cuando se da click en "submit" gracias al metodo "addEventListener".
-- Se crea una funcion que renderiza la copia de la "cardTempleate" en al princio del contenedor de las tarjetas dentro del DOM del HTML.
-- Se agrega la funcion de "cardLikeButton" (me gusta) al boton a la funcion que crea los clones con las tarjetas de "cardTempleate".
-- Se agrega la funcion de "cardDeleteButton" (borrar) a la funcion que crea los clones con las tarjetas de "cardTempleate".
-- Se llama al selector #image-popup" para que abra el modal cuando se de click en la imagen de una tarjeta dentro de el clon que se crea de cada "cardTempleate".
+El código JavaScript se divide en diferentes módulos para mantener una separación clara de responsabilidades:
 
-# Proyecto 9-Parte 1:
+- [index.js] — Punto de entrada del proyecto e inicialización de las clases.
+- Popup.j` — Clase base para los popups.
+- [EditProfilePopup.js] — Gestión del popup de edición del perfil.
+- [NewCardPopup.js] — Gestión del popup para crear tarjetas.
+- [ImagePopup.js ]— Gestión del popup de imágenes.
+- [Card.js] — Creación y comportamiento de las tarjetas.
+- [FormValidator.js] — Validación de formularios.
+- [utils.js]— Funcionalidades y clases auxiliares.
 
-- Se agrega el mensaje de validacion tipo <span> el el formulario de editar perfil.
-- Se agrega la condicion de 2 a 40 caracteres para el nombre de perfil
-- Se agrega la condicion de 2 a 200 caracteres para la descripcion del perfil
-- Se inabilita el boton de guardado hasta que las condiciones del formulario se cumplan.
-- Se crea una funcion universal reutilizable para validar los formularios de editProfileForm y newCardForm.
-- Se agrega la funcion de cerrar los formularios popup al hacer click afuera
-- Se agrega la funcion de cerrar el formulario al presionar ESC
-- Se crea una funcion que combina las funcionas de cerrar el formulario al hacer click afuera y presionar esc.
-- Se llama la nueva funcion parra los bloques de esditar perfil, crear tarjeta y abrir imagen de tarjeta.
+## Tecnologías y técnicas utilizadas:
 
-# Proyecto 10-Parte 1:
+- **HTML5**
+- **CSS3**
+- **JavaScript (ES6+)**
+- Programación Orientada a Objetos (POO).
+- Clases y constructores.
+- Herencia de clases.
+- Encapsulamiento.
+- Métodos de clase.
+- Módulos JavaScript (`import` / `export`).
+- Manipulación del DOM.
+- `addEventListener` y `removeEventListener`.
+- Funciones flecha.
+- Arrays y objetos.
+- Plantillas HTML mediante `<template>`.
+- Validación de formularios.
+- Reutilización de código.
+- Metodología **BEM** para la organización de estilos.
 
-- Este proyecto se centra en la refactorizacion, y la utilizacion de clases.
-- Se convierten todas las funciones en metodos de clase y se asignan a diferentes clases relacionadas con una funcion en especifico.
-  - Se crea la clase [Popup]: La cual toma un selector Popup y abre o cierra dicho selector.
-  - Se crea la clase [EditProfilePopup][Popup]: Hija de la clase Popup, y la cual permite abrir y llenar especificamente el formulario "EditProfile" cambiando sus inputs con datos actuales del HTML(DOM), y enviar el formulario.
-  - Se crea la clase [CardPopup][Popup]: Hija de la clase Popup, La cual permite abrir y enviar los datos del formulario "CardPopup".
-  - Se crea la clase [Card]:Crea las tarjetas, utiliza los datos de las inputs de "CardPopup".
-  - Se crea la clase [FormValidator]: Que valida las entradas de los formularios, y crea y muestra mensajes de error deacuerdo al input y sus condiciones. Tambien bloquea el button de submit si el mensaje contiene errores en el formulario.
-  - Despues se instan todas las clases para que funcionen correctamente.
+## Planes de mejora:
 
-### Planes de mejora
+Como parte del proceso de aprendizaje, los siguientes aspectos pueden seguir mejorándose:
 
-Memorizar las definiciones de cada termino y su estructura, ya que se me costo un poco recordar que era y como se estructura un "array", con los "objeto", y "campos", usando el "metodo" tal.
+- Profundizar en los principios de Programación Orientada a Objetos.
+- Mejorar la identificación de responsabilidades de cada clase.
+- Perfeccionar la nomenclatura de métodos, propiedades y variables.
+- Seguir reduciendo la duplicación de código.
+- Mejorar la estructura y organización de los módulos.
+- Continuar aplicando buenas prácticas de JavaScript.
 
-## Características del proyecto
+## Enlace al proyecto:
 
-- Uso de JavaScript.
-- Uso de arrays con objetos con diferentes campos.
-- Uso de metodos para los arrays.
-- Uso de selectores.
-- Uso de funciones con elementos predeterminados.
-- Uso del metodo "addEventListener".
-- Reutilizacion de funciones.
-- Uso de funciones arrow
-- Uso de modales popup.
-
-## Page link:
-
-- No me deja subirlo a github Pages, me dice:
-
-- GitHub Pages is designed to host your personal, organization, or project pages from a GitHub repository.
-  GitHub Pages: Upgrade or make this repository public to enable Pages
-  Learn more about GitHub Pages
+[Ver proyecto en GitHub Pages](https://osmarandreslopezpineda.github.io/web_project_around_es/)

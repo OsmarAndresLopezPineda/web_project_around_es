@@ -84,9 +84,17 @@ export class FormValidator {
       }
     });
   }
+  //Set de validaciones
   setEventListeners() {
     this._toggleButtonState();
     this._checkValidityInput();
     this._checkValidityButton();
+  }
+  //Checa las validaciones despues de un reset
+  resetValidation() {
+    this._popupInputs.forEach((input) => {
+      this._hideInputError(input);
+    });
+    this._toggleButtonState();
   }
 }
