@@ -32,7 +32,7 @@ export class Card {
     this._handleLikeClick();
     this._handleDeleteClick();
     this._imageElement.addEventListener("click", () => {
-      this._handleCardClick(this._data.name, this.data.description);
+      this._handleCardClick(this._data.name, this._data.description);
     });
   }
   generateCard() {
