@@ -1,103 +1,71 @@
-//##############################################################################
-/* ***** Constants ***** */
-const baseUrl = "https://around-api.es.tripleten-services.com/v1";
-const authorizationKey = "cfdb0906-5990-4806-a0df-87d719d6fcd1";
-/* ***** UserInfo ***** */
-export function getUserInfo() {
-  return fetch(`${baseUrl}/users/me`, {
-    headers: {
-      authorization: authorizationKey,
-    },
-  }).then((res) => res.json());
-}
-// Metodo Editar Perfil
-export function editUserInfo(userData) {
-  return fetch(`${baseUrl}/users/me`, {
-    method: "PATCH",
-    headers: {
-      authorization: authorizationKey,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(userData),
-  }).then((res) => {
+export class Api {
+  constructor({ baseUrl, headers }) {
+    this._baseUrl = baseUrl;
+    this._headers = headers;
+  }
+  // Metodo que revisa la respuesta del servidor:
+  _checkResponse(res) {
     if (res.ok) {
       return res.json();
     }
+    // Error si se rechaza el promise
     return Promise.reject(`Error: ${res.status}`);
-  });
-}
+  }
+  // Metodo base para evitar que repetir el fetch
+  _request(endpoint, options = {}) {
+    return fetch(`${this._baseUrl}${endpoint}`, {
+      headers: this._headers,
+      ...options,
+    }).then(this._checkResponse);
+  }
+  /* ***** Metodos para cada clase ***** */
+  /* ***** UserInfo ***** */
+  // Obtener la informacion del servidor sobre el usurario
+  getUserInfo() {
+    return this._request("/users/me");
+  }
+  // Editar perfil
+  editUserInfo({ name, about }) {
+    return this._request("/users/me", {
+      method: "PATCH",
+      body: JSON.stringify({ name, about }),
+    });
+  }
+  // Editar foto de perfil
+  editPhoto({ avatar }) {
+    return this._request("/users/me/avatar", {
+      method: "PATCH",
+      body: JSON.stringify({ avatar }),
+    });
+  }
+  /* ***** CardInfo ***** */
 
-// Metodo Editar Foto de Perfil
-export function editPhoto(avatar) {
-  return fetch(`${baseUrl}/users/me/avatar`, {
-    method: "PATCH",
-    headers: {
-      authorization: authorizationKey,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(avatar),
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Error: ${res.status}`);
-  });
-}
+  // Obtener la informacion del servidor sobre el usurario
+  getCardInfo() {
+    return this._request("/cards/");
+  }
+  // Agregar Tarjeta
+  addCard({ name, about }) {
+    return this._request("/cards/", {
+      method: "POST",
+      body: JSON.stringify({ name, about }),
+    });
+  }
+  // Dar y quitar Like
+  changeLikeCardStatus({ cardId, isLiked }) {
+    return this._request(`/cards/${cardId}/likes`, {
+      method: isLiked ? "PUT" : "DELETE",
+    });
+  }
+  // Borrar Card
+  deleteCard({ cardId }) {
+    return this._request(`/cards/${cardId}`, {
+      method: "DELETE",
+    });
+  }
 
-/* ***** CardInfo ***** */
-export function getCardInfo() {
-  return fetch(`${baseUrl}/cards/`, {
-    headers: {
-      authorization: authorizationKey,
-    },
-  }).then((res) => res.json());
-}
-// Metodo agregar tarjeta
-export function addCard({ name, about }) {
-  return fetch(`${baseUrl}/cards/`, {
-    method: "POST",
-    headers: {
-      authorization: authorizationKey,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ name: name, link: about }),
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Error: ${res.status}`);
-  });
-}
-// Metodo dar like
-export function changeLikeCardStatus(cardId, isLiked) {
-  const method = isLiked ? "PUT" : "DELETE";
-
-  return fetch(`${baseUrl}/cards/${cardId}/likes`, {
-    method: method,
-    headers: {
-      authorization: authorizationKey,
-    },
-  }).then((res) => {
-    if (!res.ok) {
-      return Promise.reject(`Error: ${res.status}`);
-    }
-
-    return res.json();
-  });
-}
-
-//Metodo borrar Card
-export function deleteCard(cardId) {
-  return fetch(`${baseUrl}/cards/${cardId}`, {
-    method: "DELETE",
-    headers: {
-      authorization: authorizationKey,
-      "Content-Type": "application/json",
-    },
-  }).then((res) => {
-    if (res.ok) {
-      return res;
-    }
-    return Promise.reject(`Error: ${res.status}: ${res.statusText}`);
-  });
+  /* ***** Carga inicial ***** */
+  getAppData() {
+    return Promise.all([this.getUserInfo(), this.getCardInfo()]);
+  }
 }

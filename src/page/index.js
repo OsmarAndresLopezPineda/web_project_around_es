@@ -37,15 +37,9 @@ import {
   poupImageConfig,
 } from "../utils/constants.js";
 
-import {
-  getUserInfo,
-  editUserInfo,
-  editPhoto,
-  getCardInfo,
-  addCard,
-  changeLikeCardStatus,
-  deleteCard,
-} from "../components/Api.js";
+import { Api } from "../components/Api.js";
+
+import { apiConfig } from "../utils/config.js";
 
 //##############################################################################
 
@@ -76,13 +70,17 @@ const checkCardForm = new FormValidator(
 checkCardForm.setEventListeners();
 
 //##############################################################################
+// instanciamos nuestra clase API
+const api = new Api(apiConfig);
 
 /* ***** 2. Métodos que abren y cierran nuestros Popups ***** */
 
 // Instanciamos ventana emergente ImagePopup
 const popupWithImage = new PopupWithImage(poupImageConfig);
 // Instanciamos ventana emergente deleteCard
-const deleteCardPopup = new PopupWithConfirmation(deleteCardConfig, deleteCard);
+const deleteCardPopup = new PopupWithConfirmation(deleteCardConfig, (cardId) =>
+  api.deleteCard({ cardId }),
+);
 
 // Prepare Card
 const prepareCard = (cardData) => {
@@ -91,11 +89,12 @@ const prepareCard = (cardData) => {
       popupWithImage.open(name, about);
     },
     handleLikeCard: (cardId, isLiked) => {
-      return changeLikeCardStatus(cardId, isLiked);
+      return api.changeLikeCardStatus({ cardId, isLiked });
     },
     handleDeleteCard: (cardId, cardElement) => {
       deleteCardPopup.setSubmitAction(() => {
-        return deleteCard(cardId)
+        return api
+          .deleteCard(cardId)
           .then(() => {
             cardElement.remove();
             deleteCardPopup.close();
@@ -115,29 +114,6 @@ deleteCardPopup.setEventListeners();
 //##############################################################################
 
 /* ***** 3. Section ***** */
-// Instanciamos Section para las tarjetas
-let defaultCards;
-//Usamos las tarjetas del servidor
-getCardInfo()
-  .then((cards) => {
-    // Instanciamos Section para las tarjetas iniciales
-    defaultCards = new Section(
-      {
-        items: cards,
-        renderer: prepareCard,
-      },
-      cardList,
-    );
-
-    // Renderizamos las tarjetas iniciales
-    defaultCards.renderItems();
-  })
-  .catch((error) => {
-    console.error("Error al obtener las tarjetas:", error);
-  });
-//##############################################################################
-
-/* ***** 4. PopupWithForm para las UserInfo ***** */
 
 //Instanciamos nuestros datos del DOM
 const userInfo = new UserInfo({
@@ -146,20 +122,34 @@ const userInfo = new UserInfo({
   avatarSelector: profileImage,
 });
 
+// Instanciamos Section para las tarjetas
+let defaultCards;
+
 //Usamos la informacion del servidor para actualizar el usuario:
-getUserInfo()
-  .then((userData) => {
+api
+  .getAppData()
+  .then(([userData, cards]) => {
     userInfo.setUserInfo(userData);
+
+    defaultCards = new Section(
+      { items: cards, renderer: prepareCard },
+      cardList,
+    );
+    defaultCards.renderItems();
   })
   .catch((error) => {
-    console.error("Error al obtener los datos del usuario:", error);
+    console.error("Error al cargar los datos iniciales:", error);
   });
+//Usamos las tarjetas del servidor
+//##############################################################################
+
+/* ***** 4. PopupWithForm para las UserInfo ***** */
 
 // Instanciamos ventana emergente EditProfile
 const popupProfile = new PopupWithForm(
   userConfig,
   (formData) => {
-    return editUserInfo(formData).then((userData) => {
+    return api.editUserInfo(formData).then((userData) => {
       userInfo.setUserInfo(userData);
     });
   },
@@ -179,7 +169,7 @@ popupProfile.setEventListeners();
 const popupAvatar = new PopupWithForm(
   editAvatarConfig,
   (formData) => {
-    return editPhoto(formData).then((userData) => {
+    return api.editPhoto(formData).then((userData) => {
       userInfo.setUserInfo(userData);
     });
   },
@@ -198,7 +188,7 @@ popupAvatar.setEventListeners();
 const popupCard = new PopupWithForm(
   cardConfig,
   (cardData) => {
-    return addCard(cardData).then((savedCard) => {
+    return api.addCard(cardData).then((savedCard) => {
       defaultCards.addItem(prepareCard(savedCard));
     });
   },
