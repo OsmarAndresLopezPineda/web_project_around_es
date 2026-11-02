@@ -26,18 +26,21 @@ import {
   profileTitle,
   profileDescription,
   profileImage,
+  userConfig,
+  editAvatarButton,
+  editAvatarConfig,
   newCardButton,
   cardList,
   cardTemplate,
   cardConfig,
   deleteCardConfig,
-  userConfig,
   poupImageConfig,
 } from "../utils/constants.js";
 
 import {
   getUserInfo,
   editUserInfo,
+  editPhoto,
   getCardInfo,
   addCard,
   changeLikeCardStatus,
@@ -55,6 +58,14 @@ const checkProfileForm = new FormValidator(
 );
 
 checkProfileForm.setEventListeners();
+
+// Instanciamos el validador de formulario de EditAvatar
+const checkAvatarForm = new FormValidator(
+  validationConfig,
+  document.querySelector("#edit-avatar-form"),
+);
+
+checkAvatarForm.setEventListeners();
 
 // Instanciamos el validador de formulario de NewCard
 const checkCardForm = new FormValidator(
@@ -168,6 +179,22 @@ editProfileButton.addEventListener("click", () => {
 
 popupProfile.setEventListeners();
 
+/* ***** 4.1 PopupWithForm para el Avatar ***** */
+const popupAvatar = new PopupWithForm(
+  editAvatarConfig,
+  (formData) => {
+    return editPhoto(formData).then((userData) => {
+      userInfo.setUserInfo(userData);
+    });
+  },
+  checkAvatarForm,
+);
+
+editAvatarButton.addEventListener("click", () => {
+  popupAvatar.open();
+});
+
+popupAvatar.setEventListeners();
 //##############################################################################
 
 /* ***** 5. PopupWithForm para las Cards ***** */

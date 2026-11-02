@@ -101,4 +101,6 @@ Como parte del proceso de aprendizaje, los siguientes aspectos pueden seguir mej
 
 ## Enlace al proyecto:
 
-[Ver proyecto en GitHub Pages](https://osmarandreslopezpineda.github.io/web_project_around_es/)
+[Ver el README de mi proyecto](https://osmarandreslopezpineda.github.io/web_project_around_es/)
+
+[Ver mi sitio web en GitHub Pages](https://osmarandreslopezpineda.github.io/web_project_around_es/src/)

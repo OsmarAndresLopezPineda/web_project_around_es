@@ -60,6 +60,21 @@
   padding: 34px 36px;
 }
 
+.popup__content_image {
+  max-width: 75vw;
+  max-height: 75vh;
+  height: auto;
+  width: auto;
+  display: flex;
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+}
+
+.popup__content_avatar {
+  min-height: 272px;
+}
+
 .popup__form {
   margin-top: 27px;
 }
@@ -89,17 +104,6 @@
 
 .popup_is-opened {
   display: flex;
-}
-
-.popup__content_image {
-  max-width: 75vw;
-  max-height: 75vh;
-  height: auto;
-  width: auto;
-  display: flex;
-  background: transparent;
-  border-radius: 0;
-  padding: 0;
 }
 
 .popup__image {

@@ -9,11 +9,25 @@ export class PopupWithForm extends Popup {
 
     // ***** Seleccionamos el formulario y los inputs *****
     this._form = this._popupSelector.querySelector(configSelector.form);
-    this._name = this._form.querySelector(configSelector.name);
-    this._about = this._form.querySelector(configSelector.about);
+
+    // Los inputs son opcionales según el popup
+    this._name = configSelector.name
+      ? this._form.querySelector(configSelector.name)
+      : null;
+    this._about = configSelector.about
+      ? this._form.querySelector(configSelector.about)
+      : null;
+    this._avatar = configSelector.avatar
+      ? this._form.querySelector(configSelector.avatar)
+      : null;
   }
+
   // Metodo que obtiene los valores de entrada
   _getInputValues() {
+    // Popup de avatar: la API espera { avatar: "url" }
+    if (this._avatar) {
+      return { avatar: this._avatar.value };
+    }
     // Regresamos un objeto con los datos
     return {
       name: this._name.value,
@@ -25,7 +39,7 @@ export class PopupWithForm extends Popup {
     this._name.value = name;
     this._about.value = about;
   }
-  // Metodo que lee el listener al enviar
+  // Metodo que lee el listener al enviar y al cerrar
   setEventListeners() {
     super.setEventListeners();
     this._form.addEventListener("submit", (evt) => {

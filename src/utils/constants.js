@@ -1,6 +1,10 @@
 // Array "initialCards" con 6 objetos
 export const initialCards = [
   {
+    name: "Jacques Cousteau",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/frontend-developer/common/avatar.jpg",
+  },
+  {
     name: "Valle de Yosemite",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
   },
@@ -59,6 +63,18 @@ export const userConfig = {
   about: ".popup__input_type_description",
 };
 
+//Selector para el boton de editar avatar
+export const editAvatarButton = document.querySelector(
+  ".profile__edit-avatar-button",
+);
+
+//Selectores de configuracion para editAvatar
+export const editAvatarConfig = {
+  popupSelector: "#edit-avatar-popup",
+  form: "#edit-avatar-form",
+  avatar: ".popup__input_type_avatar",
+};
+
 //##############################################################################
 
 /* ***** 2.Selectores para añadir una nueva Card ***** */
@@ -88,12 +104,6 @@ export const poupImageConfig = {
 
 //Selectores de configuracion para deleteCard
 export const deleteCardConfig = {
-  popupSelector: "#type-confirm-popup",
-  button: ".popup__confirm_button",
-};
-
-//Selectores de configuracion para editAvatarConfig
-export const editAvatarConfig = {
   popupSelector: "#type-confirm-popup",
   button: ".popup__confirm_button",
 };

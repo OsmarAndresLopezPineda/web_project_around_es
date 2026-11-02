@@ -67,6 +67,8 @@
       <footer class="footer page__section">
         <p class="footer__copyright">© 2025 Around The U.S.</p>
       </footer>
+      <!-- POPUPS -->
+      <!-- Popups para editar Nombre y Descripcion-->
       <div class="popup" id="edit-popup">
         <div class="popup__content">
           <button
@@ -76,7 +78,6 @@
           ></button>
           <h3 class="popup__title">Editar perfil</h3>
           <form class="popup__form" id="edit-profile-form">
-            <!-- 9-1: Paso 1. Validar el formulario "Editar perfil" -->
             <!-- El campo "Nombre" debe contener entre 2 y 40 caracteres. -->
             <input
               class="popup__input popup__input_type_name"
@@ -109,6 +110,7 @@
           </form>
         </div>
       </div>
+      <!-- Popups para Agregar una nueva Card-->
       <div class="popup" id="new-card-popup">
         <div class="popup__content">
           <button
@@ -118,7 +120,6 @@
           ></button>
           <h3 class="popup__title">Nuevo lugar</h3>
           <form class="popup__form" id="new-card-form">
-            <!-- Paso 2. Validación del formulario "Nuevo lugar" -->
             <!-- El campo "Nombre" debe contener entre 2 y 30 caracteres. -->
             <input
               class="popup__input popup__input_type_card-name"
@@ -137,8 +138,8 @@
               name="link"
               id="link"
               placeholder="Enlace a la imagen"
-              required
               type="url"
+              required
             />
             <!-- Mensaje de error URL-->
             <span class="link-input-error popup__input-error"></span>
@@ -146,6 +147,7 @@
           </form>
         </div>
       </div>
+      <!-- Popups para abrir la imagen de cada Card-->
       <div class="popup" id="image-popup">
         <div class="popup__content popup__content_image">
           <button
@@ -157,6 +159,7 @@
           <p class="popup__caption"></p>
         </div>
       </div>
+      <!-- Popups para de confirmacion (Eliminar tarjeta)-->
       <div class="popup" id="type-confirm-popup">
         <div class="popup__content popup__type_confirm">
           <button
@@ -168,6 +171,32 @@
           <button class="popup__button popup__confirm_button" type="button">
             Sí
           </button>
+        </div>
+      </div>
+      <!-- Popups para editar la foto de perfil-->
+      <div class="popup" id="edit-avatar-popup">
+        <div class="popup__content popup__content_avatar">
+          <button
+            aria-label="Cerrar ventana emergente"
+            class="popup__close"
+            type="button"
+          ></button>
+          <h3 class="popup__title">Cambiar foto de perfil</h3>
+          <form class="popup__form" id="edit-avatar-form">
+            <input
+              class="popup__input popup__input_type_avatar"
+              name="avatar"
+              id="avatar"
+              placeholder="Enlace de la imagen"
+              type="url"
+              required
+            />
+            <!-- Mensaje de error Avatar-->
+            <span class="avatar-input-error popup__input-error"></span>
+            <button class="popup__button" type="submit" disabled>
+              Guardar
+            </button>
+          </form>
         </div>
       </div>
     </div>
