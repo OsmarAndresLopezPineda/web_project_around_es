@@ -159,13 +159,9 @@ getUserInfo()
 const popupProfile = new PopupWithForm(
   userConfig,
   (formData) => {
-    return editUserInfo(formData)
-      .then((userData) => {
-        userInfo.setUserInfo(userData);
-      })
-      .catch((error) => {
-        console.error("Error al actualizar el perfil:", error);
-      });
+    return editUserInfo(formData).then((userData) => {
+      userInfo.setUserInfo(userData);
+    });
   },
   checkProfileForm,
 );

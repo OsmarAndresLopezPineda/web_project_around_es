@@ -20,8 +20,11 @@ export class PopupWithForm extends Popup {
     this._avatar = configSelector.avatar
       ? this._form.querySelector(configSelector.avatar)
       : null;
-  }
 
+    // Selector del boton de enviar
+    this._submitButton = this._form.querySelector(".popup__button");
+    this._submitButtonText = this._submitButton.textContent;
+  }
   // Metodo que obtiene los valores de entrada
   _getInputValues() {
     // Popup de avatar: la API espera { avatar: "url" }
@@ -39,17 +42,31 @@ export class PopupWithForm extends Popup {
     this._name.value = name;
     this._about.value = about;
   }
+  // Cambia el texto del botón mientras se guarda
+  _renderLoading(isLoading, loadingText = "Guardando...") {
+    this._submitButton.textContent = isLoading
+      ? loadingText
+      : this._submitButtonText;
+    this._submitButton.disabled = isLoading;
+  }
   // Metodo que lee el listener al enviar y al cerrar
   setEventListeners() {
     super.setEventListeners();
     this._form.addEventListener("submit", (evt) => {
       evt.preventDefault();
+      // Cambiamos el button a "Guardando..."
+      this._renderLoading(true);
+
       this._handleFormSubmit(this._getInputValues())
         .then(() => {
           this.close();
         })
         .catch((error) => {
           console.error("Error al enviar el formulario:", error);
+        })
+        .finally(() => {
+          // Dejamos la configuracion del boton como estaba
+          this._renderLoading(false);
         });
     });
   }
