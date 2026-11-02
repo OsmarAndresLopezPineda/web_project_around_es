@@ -10,28 +10,33 @@ export class PopupWithForm extends Popup {
     // ***** Seleccionamos el formulario y los inputs *****
     this._form = this._popupSelector.querySelector(configSelector.form);
     this._name = this._form.querySelector(configSelector.name);
-    this._description = this._form.querySelector(configSelector.description);
+    this._about = this._form.querySelector(configSelector.about);
   }
   // Metodo que obtiene los valores de entrada
   _getInputValues() {
     // Regresamos un objeto con los datos
     return {
       name: this._name.value,
-      description: this._description.value,
+      about: this._about.value,
     };
   }
   // Metodo que establece los valores de entrada
-  setInputValues({ name, description }) {
+  setInputValues({ name, about }) {
     this._name.value = name;
-    this._description.value = description;
+    this._about.value = about;
   }
   // Metodo que lee el listener al enviar
   setEventListeners() {
     super.setEventListeners();
     this._form.addEventListener("submit", (evt) => {
       evt.preventDefault();
-      this._handleFormSubmit(this._getInputValues());
-      this.close();
+      this._handleFormSubmit(this._getInputValues())
+        .then(() => {
+          this.close();
+        })
+        .catch((error) => {
+          console.error("Error al enviar el formulario:", error);
+        });
     });
   }
   close() {

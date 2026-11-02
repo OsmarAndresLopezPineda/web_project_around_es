@@ -43,7 +43,27 @@
   border-radius: 50%;
   object-fit: cover;
   background-position: center;
+}
+
+.profile__edit-avatar-button {
+  position: relative;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
   margin-right: 29px;
+}
+
+.profile__edit-avatar-button::after {
+  content: ""; /* sin esto, el ::after no se crea */
+  position: absolute;
+  inset: 0; /* Los 4 bordes se vuelven 0, Top, Left, Right, bottom */
+  background: url("../images/edit-icon.svg") center / 26px no-repeat;
+  opacity: 0; /* Aparece oculta hasta que se pone el mause encima */
+}
+
+.profile__edit-avatar-button:hover::after {
+  background-color: rgba(0, 0, 0, 0.8);
+  opacity: 1;
 }
 
 .profile__add-button {

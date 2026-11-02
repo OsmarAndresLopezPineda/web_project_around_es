@@ -1,13 +1,15 @@
 import { Popup } from "./Popup.js";
 
 export class PopupWithImage extends Popup {
-  constructor(popupSelector) {
-    super(popupSelector);
+  constructor(configSelector) {
+    super(configSelector.popupSelector);
     // ***** Selectores para abrir las imagenes en el DOM (HTML) *****
-    this._imagePopupElement =
-      this._popupSelector.querySelector(".popup__image");
-    this._imagePopupCaption =
-      this._popupSelector.querySelector(".popup__caption");
+    this._imagePopupElement = this._popupSelector.querySelector(
+      configSelector.image,
+    );
+    this._imagePopupCaption = this._popupSelector.querySelector(
+      configSelector.caption,
+    );
   }
   // Metodo para abir la imagen emergente
   open(title, link) {

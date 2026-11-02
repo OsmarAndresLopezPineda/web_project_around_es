@@ -2,33 +2,27 @@
 export const initialCards = [
   {
     name: "Valle de Yosemite",
-    description:
-      "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
   },
   {
     name: "Lago Louise",
-    description:
-      "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg",
   },
   {
     name: "Montañas Calvas",
-    description:
-      "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_bald-mountains.jpg",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_bald-mountains.jpg",
   },
   {
     name: "Latemar",
-    description:
-      "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_latemar.jpg",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_latemar.jpg",
   },
   {
     name: "Parque Nacional de la Vanoise",
-    description:
-      "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_vanoise.jpg",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_vanoise.jpg",
   },
   {
     name: "Lago di Braies",
-    description:
-      "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg",
   },
 ];
 
@@ -55,13 +49,14 @@ export const editProfileButton = document.querySelector(
 //Selectores de title y description en nuestro HTML
 export const profileTitle = ".profile__title";
 export const profileDescription = ".profile__description";
+export const profileImage = ".profile__image";
 
 //Selectores de configuracion para UserInfo
 export const userConfig = {
   popupSelector: "#edit-popup",
   form: "#edit-profile-form",
   name: ".popup__input_type_name",
-  description: ".popup__input_type_description",
+  about: ".popup__input_type_description",
 };
 
 //##############################################################################
@@ -81,5 +76,24 @@ export const cardConfig = {
   popupSelector: "#new-card-popup",
   form: "#new-card-form",
   name: ".popup__input_type_card-name",
-  description: ".popup__input_type_url",
+  about: ".popup__input_type_url",
+};
+
+//Selectores de configuracion para poupImageConfig
+export const poupImageConfig = {
+  popupSelector: "#image-popup",
+  image: ".popup__image",
+  caption: ".popup__caption",
+};
+
+//Selectores de configuracion para deleteCard
+export const deleteCardConfig = {
+  popupSelector: "#type-confirm-popup",
+  button: ".popup__confirm_button",
+};
+
+//Selectores de configuracion para editAvatarConfig
+export const editAvatarConfig = {
+  popupSelector: "#type-confirm-popup",
+  button: ".popup__confirm_button",
 };

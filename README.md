@@ -66,9 +66,11 @@ El código JavaScript se divide en diferentes módulos para mantener una separac
 - **JavaScript (ES6+)**
 - **Node.js / NPM**
 - **Webpack**
+- **Diseño web adaptativo**
 - Programación Orientada a Objetos (POO).
 - Clases y constructores.
 - Herencia de clases.
+- Acoplamiento Debil (low coupling).
 - Encapsulamiento.
 - Métodos de clase.
 - Módulos JavaScript (`import` / `export`).

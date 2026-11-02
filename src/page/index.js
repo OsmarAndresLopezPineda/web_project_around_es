@@ -13,22 +13,36 @@ import { UserInfo } from "../components/UserInfo.js";
 // Importamos nuestra clase para crear las tarjetas
 import { Card } from "../components/Card.js";
 
+// Importamos nuestra clase para borrar las tarjetas
+import { PopupWithConfirmation } from "../components/PopupWithConfirmation.js";
+
 // Importamos nuestro validador de formularios
 import { FormValidator } from "../components/FormValidator.js";
 
 // Importamos todas nuestras constantes por nombre
 import {
-  initialCards,
   validationConfig,
   editProfileButton,
   profileTitle,
   profileDescription,
+  profileImage,
   newCardButton,
   cardList,
   cardTemplate,
   cardConfig,
+  deleteCardConfig,
   userConfig,
+  poupImageConfig,
 } from "../utils/constants.js";
+
+import {
+  getUserInfo,
+  editUserInfo,
+  getCardInfo,
+  addCard,
+  changeLikeCardStatus,
+  deleteCard,
+} from "../components/Api.js";
 
 //##############################################################################
 
@@ -55,47 +69,92 @@ checkCardForm.setEventListeners();
 /* ***** 2. Métodos que abren y cierran nuestros Popups ***** */
 
 // Instanciamos ventana emergente ImagePopup
-const popupWithImage = new PopupWithImage("#image-popup");
+const popupWithImage = new PopupWithImage(poupImageConfig);
+// Instanciamos ventana emergente deleteCard
+const deleteCardPopup = new PopupWithConfirmation(deleteCardConfig, deleteCard);
 
 // Prepare Card
 const prepareCard = (cardData) => {
-  const card = new Card(cardData, cardTemplate, (name, link) => {
-    popupWithImage.open(name, link);
+  const card = new Card(cardTemplate, cardData, {
+    handleCardClick: (name, about) => {
+      popupWithImage.open(name, about);
+    },
+    handleLikeCard: (cardId, isLiked) => {
+      return changeLikeCardStatus(cardId, isLiked);
+    },
+    handleDeleteCard: (cardId, cardElement) => {
+      deleteCardPopup.setSubmitAction(() => {
+        return deleteCard(cardId)
+          .then(() => {
+            cardElement.remove();
+            deleteCardPopup.close();
+          })
+          .catch((error) => {
+            console.error("Error al eliminar las tarjetas:", error);
+          });
+      });
+      deleteCardPopup.open();
+    },
   });
-
   return card.generateCard();
 };
 
 popupWithImage.setEventListeners();
+deleteCardPopup.setEventListeners();
 //##############################################################################
 
 /* ***** 3. Section ***** */
+// Instanciamos Section para las tarjetas
+let defaultCards;
+//Usamos las tarjetas del servidor
+getCardInfo()
+  .then((cards) => {
+    // Instanciamos Section para las tarjetas iniciales
+    defaultCards = new Section(
+      {
+        items: cards,
+        renderer: prepareCard,
+      },
+      cardList,
+    );
 
-// Instanciamos Section para las tarjetas iniciales
-const defaultCards = new Section(
-  {
-    items: initialCards,
-    renderer: prepareCard,
-  },
-  cardList,
-);
-
-// Renderizamos las tarjetas iniciales
-defaultCards.renderItems();
-
+    // Renderizamos las tarjetas iniciales
+    defaultCards.renderItems();
+  })
+  .catch((error) => {
+    console.error("Error al obtener las tarjetas:", error);
+  });
 //##############################################################################
+
 /* ***** 4. PopupWithForm para las UserInfo ***** */
+
 //Instanciamos nuestros datos del DOM
 const userInfo = new UserInfo({
   nameSelector: profileTitle,
-  jobSelector: profileDescription,
+  aboutSelector: profileDescription,
+  avatarSelector: profileImage,
 });
+
+//Usamos la informacion del servidor para actualizar el usuario:
+getUserInfo()
+  .then((userData) => {
+    userInfo.setUserInfo(userData);
+  })
+  .catch((error) => {
+    console.error("Error al obtener los datos del usuario:", error);
+  });
 
 // Instanciamos ventana emergente EditProfile
 const popupProfile = new PopupWithForm(
   userConfig,
   (formData) => {
-    userInfo.setUserInfo(formData);
+    return editUserInfo(formData)
+      .then((userData) => {
+        userInfo.setUserInfo(userData);
+      })
+      .catch((error) => {
+        console.error("Error al actualizar el perfil:", error);
+      });
   },
   checkProfileForm,
 );
@@ -110,13 +169,15 @@ editProfileButton.addEventListener("click", () => {
 popupProfile.setEventListeners();
 
 //##############################################################################
-/* ***** 5. PopupWithForm para las Cards ***** */
 
+/* ***** 5. PopupWithForm para las Cards ***** */
 // Instanciamos ventana emergente Card
 const popupCard = new PopupWithForm(
   cardConfig,
   (cardData) => {
-    defaultCards.addItem(prepareCard(cardData));
+    return addCard(cardData).then((savedCard) => {
+      defaultCards.addItem(prepareCard(savedCard));
+    });
   },
   checkCardForm,
 );

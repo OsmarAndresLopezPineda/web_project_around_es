@@ -91,7 +91,7 @@
   display: flex;
 }
 
-.popup__content_content_image {
+.popup__content_image {
   max-width: 75vw;
   max-height: 75vh;
   height: auto;
@@ -115,6 +115,14 @@
   left: 0;
   top: calc(100% + 10px);
   margin: 0;
+}
+
+.popup__type_confirm {
+  min-height: 181px;
+}
+
+.popup__confirm_button {
+  margin-top: 38px;
 }
 
 /* ====== ERRORES ====== */
@@ -172,7 +180,7 @@
     line-height: 22px;
   }
 
-  .popup__content_content_image {
+  .popup__content_image {
     max-width: 75vw;
     padding: 0;
   }
