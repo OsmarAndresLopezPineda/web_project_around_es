@@ -108,6 +108,6 @@ Como parte del proceso de aprendizaje, los siguientes aspectos pueden seguir mej
 
 ## Enlace al proyecto
 
-[Ver mi proyecto Around The U.S.](https://osmarandreslopezpineda.github.io/web_project_around_es/)
+[Ver mi proyecto Around The U.S.](https://osmarandreslopezpineda.github.io/web_project_around_es/src/)
 
 [Ver mi repositorio en GitHub](https://github.com/OsmarAndresLopezPineda/web_project_around_es)
