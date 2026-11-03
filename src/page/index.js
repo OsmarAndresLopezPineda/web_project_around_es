@@ -94,7 +94,7 @@ const prepareCard = (cardData) => {
     handleDeleteCard: (cardId, cardElement) => {
       deleteCardPopup.setSubmitAction(() => {
         return api
-          .deleteCard(cardId)
+          .deleteCard({ cardId })
           .then(() => {
             cardElement.remove();
             deleteCardPopup.close();

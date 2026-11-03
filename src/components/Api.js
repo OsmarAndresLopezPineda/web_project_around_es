@@ -45,10 +45,10 @@ export class Api {
     return this._request("/cards/");
   }
   // Agregar Tarjeta
-  addCard({ name, about }) {
+  addCard({ name, link }) {
     return this._request("/cards/", {
       method: "POST",
-      body: JSON.stringify({ name, about }),
+      body: JSON.stringify({ name, link }),
     });
   }
   // Dar y quitar Like

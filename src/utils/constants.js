@@ -92,7 +92,7 @@ export const cardConfig = {
   popupSelector: "#new-card-popup",
   form: "#new-card-form",
   name: ".popup__input_type_card-name",
-  about: ".popup__input_type_url",
+  link: ".popup__input_type_url",
 };
 
 //Selectores de configuracion para poupImageConfig

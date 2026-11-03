@@ -17,6 +17,9 @@ export class PopupWithForm extends Popup {
     this._about = configSelector.about
       ? this._form.querySelector(configSelector.about)
       : null;
+    this._link = configSelector.link
+      ? this._form.querySelector(configSelector.link)
+      : null;
     this._avatar = configSelector.avatar
       ? this._form.querySelector(configSelector.avatar)
       : null;
@@ -28,6 +31,9 @@ export class PopupWithForm extends Popup {
   // Metodo que obtiene los valores de entrada
   _getInputValues() {
     // Popup de avatar: la API espera { avatar: "url" }
+    if (this._link) {
+      return { name: this._name.value, link: this._link.value };
+    }
     if (this._avatar) {
       return { avatar: this._avatar.value };
     }
